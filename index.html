@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DIR POS — لوجيسيال كامل للمحل في تليفونك</title>
-<meta name="description" content="DIR POS: لوجيسيال للمحلات في الجزائر يخدم في التليفون. بيع بالباركود، مخزون، ديون، فواتير وملصقات. جرّب 3 أيام مجانا، الهاتف 7900 دج، PC 8900 دج، والجوج 10900 دج مدى الحياة.">
+<meta name="description" content="DIR POS: لوجيسيال للمحلات في الجزائر يخدم في التليفون. بيع بالباركود، مخزون، ديون، فواتير وملصقات. جرّب 3 أيام مجانا، 7900 دج مدى الحياة.">
 <meta property="og:title" content="DIR POS — لوجيسيال كامل للمحل في تليفونك">
-<meta property="og:description" content="جرّب 3 أيام مجانا. الهاتف 7900 دج، PC 8900 دج، والجوج 10900 دج. بلا اشتراك.">
+<meta property="og:description" content="جرّب 3 أيام مجانا. 7900 دج مدى الحياة، بلا اشتراك.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="img/icon.png">
 <meta name="twitter:card" content="summary">
@@ -212,7 +212,7 @@ dialog .close{margin-top:10px;color:var(--muted);font-weight:700;min-height:44px
 </svg>
 
 <a class="skip" href="#main">روح للمحتوى</a>
-<div class="topbar">عرض محدود: الهاتف <span class="num">7900</span> دج، PC <span class="num">8900</span> دج، والجوج مع بعض <span class="num">10900</span> دج، مدى الحياة. <a href="#order">اطلب دروك</a></div>
+<div class="topbar">عرض محدود: DIR POS بـ <span class="num">7900</span> دج برك، مدى الحياة. <a href="#order">حمّل دروك</a></div>
 
 <header class="nav">
   <div class="wrap">
@@ -220,7 +220,7 @@ dialog .close{margin-top:10px;color:var(--muted);font-weight:700;min-height:44px
     <nav class="links" aria-label="القائمة">
       <a href="#features">المميزات</a><a href="#how">كيفاش يخدم</a><a href="#order">السعر</a><a href="#faq">الأسئلة</a>
     </nav>
-    <a class="btn b-main" href="#order">اطلب الرخصة</a>
+    <a class="btn b-main" href="#order">حمّل التطبيق</a>
   </div>
 </header>
 
@@ -235,12 +235,8 @@ dialog .close{margin-top:10px;color:var(--muted);font-weight:700;min-height:44px
       <div class="offer">
         <span class="ribbon">عرض محدود</span>
         <h2>رخصة DIR POS كاملة</h2>
-        <div class="plans" role="radiogroup" aria-label="اختار النسخة">
-          <label class="plan"><input type="radio" name="plan" value="phone" form="orderForm"><span>نسخة الهاتف<small>أندرويد</small></span><em>7900 DA</em></label>
-          <label class="plan"><input type="radio" name="plan" value="pc" form="orderForm"><span>نسخة PC<small>Windows + كلي USB</small></span><em>8900 DA</em></label>
-          <label class="plan"><input type="radio" name="plan" value="both" form="orderForm" checked><span>الهاتف + PC<span class="tag">الأوفر</span><small>الجوج مع بعض</small></span><em>10900 DA</em></label>
-        </div>
-        <div class="price"><s id="oldPrice">16800</s><b id="bigPrice">10900</b><small>DA</small></div>
+        
+        <div class="price"><s id="oldPrice">11000</s><b id="bigPrice">7900</b><small>DA</small></div>
         <p class="once">دفعة وحدة، والرخصة مفعلة مدى الحياة</p>
         <ul class="incl">
           <li><svg class="ic"><use href="#ok"/></svg>كامل المميزات مفتوحة، بلا حدود</li>
@@ -250,42 +246,8 @@ dialog .close{margin-top:10px;color:var(--muted);font-weight:700;min-height:44px
           <li><svg class="ic"><use href="#ok"/></svg>التحديثات مجانا</li>
         </ul>
 
-        <form id="orderForm" novalidate>
-          <div class="fld">
-            <label for="f-name">الاسم ولا اسم المحل</label>
-            <input id="f-name" name="name" autocomplete="name" required>
-            <div class="err">اكتب الاسم.</div>
-          </div>
-          <div class="fld">
-            <label for="f-phone">رقم الهاتف</label>
-            <input id="f-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="0X XX XX XX XX" dir="ltr" style="text-align:right" required>
-            <div class="err">اكتب رقم من 10 أرقام يبدا بـ 05 ولا 06 ولا 07.</div>
-          </div>
-          <div class="two">
-            <div class="fld">
-              <label for="f-wilaya">الولاية</label>
-              <select id="f-wilaya" name="wilaya" required><option value="">اختار الولاية</option></select>
-              <div class="err">اختار الولاية.</div>
-            </div>
-            <div class="fld">
-              <label for="f-shop">نوع المحل</label>
-              <select id="f-shop" name="shop" required>
-                <option value="">اختار نوع المحل</option>
-                <option>مواد غذائية</option>
-                <option>ميني ماركت</option>
-                <option>كشك KMS</option>
-                <option>Bureau de tabac</option>
-                <option>نوع آخر</option>
-              </select>
-              <div class="err">اختار نوع المحل.</div>
-            </div>
-          </div>
-          <button class="btn b-main" type="submit"><svg class="ic"><use href="#bag"/></svg>اطلب الرخصة بـ <span class="num" id="btnPrice">10900</span> دج</button>
-          <p class="call">نتصلو بيك قبل ما نفعّلولك الرخصة.</p>
-          <div class="msg" id="formMsg" role="status" aria-live="polite"></div>
-        </form>
 
-        <button class="btn b-line trial js-trial" type="button"><svg class="ic"><use href="#dl"/></svg>جرّب مجانا 3 أيام</button>
+        <button class="btn b-main trial js-trial" type="button"><svg class="ic"><use href="#dl"/></svg>جرّب مجانا 3 أيام</button>
       </div>
 
       <ul class="trust">
@@ -302,12 +264,8 @@ dialog .close{margin-top:10px;color:var(--muted);font-weight:700;min-height:44px
     <div class="wrap">
       <h2>خلاص من الكرني والحسابات بالقلم؟</h2>
       <p class="lead">الديون المنسية، السلعة اللي تخلاص بلا ما تحس، والحساب اللي ما يخرجش في آخر النهار. DIR POS يرتبلك كلش في تليفون واحد.</p>
-      <div class="phones">
-        <img src="img/scan.webp" alt="البيع بسكان الباركود" width="540" height="921" loading="lazy">
-        <img src="img/pay.webp" alt="شاشة الدفع والصرف" width="540" height="1072" loading="lazy">
-      </div>
       <span class="dz">🇩🇿 صنع في الجزائر، للتجار الجزائريين</span>
-      <div class="cta-row"><a class="btn b-main" href="#order">اطلب نسختك دروك</a></div>
+      <div class="cta-row"><a class="btn b-main" href="#order">حمّل التطبيق مجانا</a></div>
     </div>
   </section>
 
@@ -380,7 +338,6 @@ dialog .close{margin-top:10px;color:var(--muted);font-weight:700;min-height:44px
               <li><svg class="ic"><use href="#ok"/></svg>تحذير كي المنتج خلاص ولا فاتت صلاحيتو</li>
             </ul>
           </div>
-          <img src="img/scan.webp" alt="شاشة البيع بالسكان" width="540" height="921" loading="lazy">
         </article>
         <article class="feat">
           <div class="copy">
@@ -392,7 +349,6 @@ dialog .close{margin-top:10px;color:var(--muted);font-weight:700;min-height:44px
               <li><svg class="ic"><use href="#ok"/></svg>تصحيح المخزون: سلعة جديدة، تالف، منتهي الصلاحية</li>
             </ul>
           </div>
-          <img src="img/products.webp" alt="المنتجات والمخزون" width="540" height="1021" loading="lazy">
         </article>
         <article class="feat">
           <div class="copy">
@@ -403,7 +359,6 @@ dialog .close{margin-top:10px;color:var(--muted);font-weight:700;min-height:44px
               <li><svg class="ic"><use href="#ok"/></svg>اليوم، أمس، 7 أيام ولا الشهر</li>
             </ul>
           </div>
-          <img src="img/dash.webp" alt="لوحة التحكم" width="540" height="1028" loading="lazy">
         </article>
         <article class="feat">
           <div class="copy">
@@ -414,7 +369,6 @@ dialog .close{margin-top:10px;color:var(--muted);font-weight:700;min-height:44px
               <li><svg class="ic"><use href="#ok"/></svg>بالعربية ولا بالفرنسية، فاتح ولا غامق</li>
             </ul>
           </div>
-          <img src="img/products-fr.webp" alt="التطبيق بالفرنسية" width="540" height="1031" loading="lazy">
         </article>
       </div>
     </div>
@@ -425,7 +379,6 @@ dialog .close{margin-top:10px;color:var(--muted);font-weight:700;min-height:44px
     <div class="wrap">
       <h2>فواتير وملصقات تشرّف محلك</h2>
       <div class="print">
-        <div class="paper"><img src="img/receipt.webp" alt="مثال على فاتورة DIR POS" width="420" height="1031" loading="lazy"></div>
         <ul>
           <li><svg class="ic"><use href="#ok"/></svg>فاتورة واضحة بكتبة كبيرة، بالعربية ولا بالفرنسية</li>
           <li><svg class="ic"><use href="#ok"/></svg>طابعة بلوتوث ولا USB، بلا درايفر</li>
@@ -455,7 +408,7 @@ dialog .close{margin-top:10px;color:var(--muted);font-weight:700;min-height:44px
       <div class="faq">
         <details><summary>واش يلزمني إنترنت؟</summary><p>لا. DIR POS يخدم كامل بلا إنترنت، والبيع ما يحبسش كي تقطع الكونيكسيون.</p></details>
         <details><summary>كيفاش نجرب قبل ما نشري؟</summary><p>حمّل التطبيق وجرّبو مجانا 3 أيام بكامل المميزات. وكي تشري، المعلومات اللي دخلتها في التجربة ما تضيعش.</p></details>
-        <details><summary>واش كاين اشتراك؟</summary><p>لا. تخلص مرة وحدة (الهاتف 7900 دج، PC 8900 دج، الجوج 10900 دج)، والرخصة تبقى مفعلة مدى الحياة.</p></details>
+        <details><summary>واش كاين اشتراك؟</summary><p>لا. تخلص مرة وحدة (7900 دج)، والرخصة تبقى مفعلة مدى الحياة.</p></details>
         <details><summary>واش يخدم مع الطابعة والسكانر؟</summary><p>إيه. يطبع على طابعات الفواتير والملصقات بالبلوتوث ولا USB، والسكان يكون بكاميرا التليفون.</p></details>
         <details><summary>كيفاش نزيد المنتجات تاعي؟</summary><p>تسكاني الباركود تاع المنتج وتلقاه جاهز بإسمو وصورتو، ولا تزيدو بيدك في ثواني.</p></details>
         <details><summary>واش يخدم في أي تليفون؟</summary><p>يخدم في تليفونات الأندرويد.</p></details>
@@ -474,7 +427,7 @@ dialog .close{margin-top:10px;color:var(--muted);font-weight:700;min-height:44px
   </div>
 </footer>
 
-<div class="bar" id="bar"><a class="btn b-main" href="#order">اطلب الرخصة مدى الحياة</a></div>
+<div class="bar" id="bar"><a class="btn b-main" href="#order">حمّل التطبيق مجانا</a></div>
 
 <a class="wa js-wa" href="#" aria-label="تواصل معنا عبر واتساب">
   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 004.74 1.21c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.8 14.03c-.24.68-1.42 1.3-1.95 1.35-.5.05-.97.23-3.26-.68-2.76-1.09-4.5-3.91-4.64-4.09-.13-.18-1.1-1.47-1.1-2.8 0-1.33.7-1.99.95-2.26.24-.27.53-.34.71-.34l.51.01c.16.01.38-.06.6.46.23.54.77 1.87.84 2 .07.14.11.3.02.48-.09.18-.14.29-.27.45-.14.16-.29.36-.41.48-.14.14-.28.28-.12.55.16.27.7 1.16 1.51 1.88 1.04.92 1.91 1.21 2.18 1.35.27.14.43.11.59-.07.16-.18.68-.79.86-1.07.18-.27.36-.23.61-.14.25.09 1.58.75 1.85.88.27.14.45.2.52.32.07.11.07.66-.17 1.33z"/></svg>
@@ -492,7 +445,7 @@ dialog .close{margin-top:10px;color:var(--muted);font-weight:700;min-height:44px
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
 {"@type":"Question","name":"واش يلزمني إنترنت؟","acceptedAnswer":{"@type":"Answer","text":"لا. DIR POS يخدم كامل بلا إنترنت."}},
 {"@type":"Question","name":"كيفاش نجرب قبل ما نشري؟","acceptedAnswer":{"@type":"Answer","text":"حمّل التطبيق وجرّبو مجانا 3 أيام بكامل المميزات."}},
-{"@type":"Question","name":"واش كاين اشتراك؟","acceptedAnswer":{"@type":"Answer","text":"لا. تخلص مرة وحدة (الهاتف 7900 دج، PC 8900 دج، الجوج 10900 دج)، والرخصة تبقى مفعلة مدى الحياة."}}
+{"@type":"Question","name":"واش كاين اشتراك؟","acceptedAnswer":{"@type":"Answer","text":"لا. تخلص مرة وحدة (7900 دج)، والرخصة تبقى مفعلة مدى الحياة."}}
 ]}
 </script>
 <script>
@@ -517,48 +470,13 @@ document.querySelectorAll('.js-apk').forEach(a => {
   else a.addEventListener('click', e => { e.preventDefault(); apkNote.hidden = false; });
 });
 
-// Wilayas (69)
-const W = ["أدرار","الشلف","الأغواط","أم البواقي","باتنة","بجاية","بسكرة","بشار","البليدة","البويرة","تمنراست","تبسة","تلمسان","تيارت","تيزي وزو","الجزائر","الجلفة","جيجل","سطيف","سعيدة","سكيكدة","سيدي بلعباس","عنابة","قالمة","قسنطينة","المدية","مستغانم","المسيلة","معسكر","ورقلة","وهران","البيض","إليزي","برج بوعريريج","بومرداس","الطارف","تندوف","تيسمسيلت","الوادي","خنشلة","سوق أهراس","تيبازة","ميلة","عين الدفلى","النعامة","عين تموشنت","غرداية","غليزان","تيميمون","برج باجي مختار","أولاد جلال","بني عباس","عين صالح","عين قزام","تقرت","جانت","المغير","المنيعة"];
-const NEW_W = ["آفلو","بريكة","القنطرة","بئر العاتر","العريشة","قصر الشلالة","عين وسارة","مسعد","قصر البخاري","بوسعادة","الأبيض سيدي الشيخ"];
-const sel = $('f-wilaya');
-W.forEach((n,i) => sel.add(new Option(String(i+1).padStart(2,'0') + ' - ' + n, n)));
-NEW_W.forEach(n => sel.add(new Option(n, n)));
-
-// Sticky order button on phones, hidden while the form is on screen
-const bar = $('bar'), form = $('orderForm');
+// Sticky download button on phones, hidden while the main button is on screen
+const bar = $('bar'), mainBtn = document.querySelector('.js-trial');
 addEventListener('scroll', () => {
-  const r = form.getBoundingClientRect();
+  const r = mainBtn.getBoundingClientRect();
   bar.classList.toggle('show', scrollY > 500 && !(r.top < innerHeight && r.bottom > 0));
 }, {passive:true});
+</script>
 
-// Order -> Google Sheets
-const msg = $('formMsg');
-const check = (el, ok) => { el.closest('.fld').classList.toggle('bad', !ok); return ok; };
-form.addEventListener('input', e => e.target.closest('.fld')?.classList.remove('bad'));
-form.addEventListener('submit', async e => {
-  e.preventDefault(); msg.className = 'msg';
-  const f = form.elements, phone = f.phone.value.replace(/\D/g, '');
-  const ok = [check(f.name, f.name.value.trim().length >= 2), check(f.phone, /^0[567]\d{8}$/.test(phone)), check(f.wilaya, !!f.wilaya.value), check(f.shop, !!f.shop.value)].every(Boolean);
-  if (!ok) { form.querySelector('.bad input, .bad select')?.focus(); return; }
-  const btn = form.querySelector('button[type=submit]'), label = btn.innerHTML;
-  btn.disabled = true; btn.textContent = 'راهو يتبعت...';
-  try {
-    if (!SHEET_URL) throw new Error('no-url');
-    await fetch(SHEET_URL, {method:'POST', mode:'no-cors', body:new URLSearchParams({name:f.name.value.trim(), phone, wilaya:f.wilaya.value, shop:f.shop.value, plan:(document.querySelector('input[name=plan]:checked')||{}).value||''})});
-    form.reset(); msg.className = 'msg ok'; msg.textContent = 'وصل طلبك. نتصلو بيك قريب باش نفعّلولك الرخصة.';
-  } catch (err) {
-    msg.className = 'msg ko'; msg.textContent = 'ما تبعتش الطلب. عاود جرّب، ولا ابعتلنا في الواتساب.';
-  } finally { btn.disabled = false; btn.innerHTML = label; }
-});
-</script>
-<script>
-(function(){
-  var P={phone:[7900,null],pc:[8900,null],both:[10900,16800]};
-  function upd(){var r=document.querySelector('input[name=plan]:checked');if(!r)return;var p=P[r.value];
-    document.getElementById('bigPrice').textContent=p[0];document.getElementById('btnPrice').textContent=p[0];
-    var o=document.getElementById('oldPrice');o.textContent=p[1]||'';o.style.display=p[1]?'':'none';}
-  document.querySelectorAll('input[name=plan]').forEach(function(i){i.addEventListener('change',upd)});upd();
-})();
-</script>
 </body>
 </html>
