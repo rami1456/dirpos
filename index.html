@@ -433,9 +433,21 @@ dialog .close{margin-top:10px;color:var(--muted);font-weight:700;min-height:44px
 
 <dialog id="trialBox">
   <h3>جرّب DIR POS مجانا 3 أيام</h3>
-  <p>حمّل التطبيق في تليفونك الأندرويد. بلا دفع، وكامل المميزات مفتوحة.</p>
-  <a class="btn b-main js-apk" href="#"><svg class="ic"><use href="#dl"/></svg>حمّل التطبيق</a>
-  <p class="note js-apk-note" hidden>رابط التحميل يكون جاهز قريب. سجّل طلبك ولا ابعتلنا في الواتساب.</p>
+  <p>اكتب اسمك ورقمك، والتحميل يبدا وحدو. بلا دفع، وكامل المميزات مفتوحة.</p>
+  <form id="leadForm" novalidate>
+    <div class="fld">
+      <label for="l-name">الاسم ولا اسم المحل</label>
+      <input id="l-name" name="name" autocomplete="name" required>
+      <div class="err">اكتب الاسم.</div>
+    </div>
+    <div class="fld">
+      <label for="l-phone">رقم الهاتف</label>
+      <input id="l-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="0X XX XX XX XX" dir="ltr" style="text-align:right" required>
+      <div class="err">اكتب رقم من 10 أرقام يبدا بـ 05 ولا 06 ولا 07.</div>
+    </div>
+    <button class="btn b-main" type="submit"><svg class="ic"><use href="#dl"/></svg>حمّل التطبيق</button>
+    <div class="msg" id="leadMsg" role="status" aria-live="polite"></div>
+  </form>
   <button class="close" type="button" onclick="this.closest('dialog').close()">رجوع</button>
 </dialog>
 
@@ -449,7 +461,7 @@ dialog .close{margin-top:10px;color:var(--muted);font-weight:700;min-height:44px
 <script>
 /* ===== اعدادات: بدّل هادو فقط ===== */
 const APK_URL   = "https://raw.githubusercontent.com/rami1456/dirpos/main/DIR_POS.apk";   // رابط تحميل الـ APK
-const SHEET_URL = "";   // رابط Google Apps Script (/exec)
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbzGfeBLcHIxixqZXsXXdLj0kuPpZv0_rE973_7g5BPMaJ2SJdGYgVq8J6_bBrjuaovDNw/exec";   // رابط Google Apps Script (/exec)
 const WA_NUMBER = "";   // رقم الواتساب بلا + مثلا 213550000000
 const WA_TEXT   = "السلام عليكم، حاب نعرف السعر والتفاصيل تاع DIR POS";
 /* ================================= */
@@ -461,10 +473,24 @@ const box = $('trialBox');
 document.querySelectorAll('.js-trial').forEach(b => b.addEventListener('click', () => {
   if (box.showModal) box.showModal(); else if (APK_URL) location.href = APK_URL;
 }));
-const apkNote = document.querySelector('.js-apk-note');
-document.querySelectorAll('.js-apk').forEach(a => {
-  if (APK_URL) a.href = APK_URL;
-  else a.addEventListener('click', e => { e.preventDefault(); apkNote.hidden = false; });
+// Name + phone, saved in Google Sheets, then the download starts
+const lead = $('leadForm'), leadMsg = $('leadMsg');
+const fieldOk = (el, ok) => { el.closest('.fld').classList.toggle('bad', !ok); return ok; };
+lead.addEventListener('input', e => e.target.closest('.fld')?.classList.remove('bad'));
+lead.addEventListener('submit', async e => {
+  e.preventDefault();
+  const f = lead.elements, phone = f.phone.value.replace(/\D/g, '');
+  const ok = [fieldOk(f.name, f.name.value.trim().length >= 2), fieldOk(f.phone, /^0[567]\d{8}$/.test(phone))].every(Boolean);
+  if (!ok) { lead.querySelector('.bad input')?.focus(); return; }
+  const btn = lead.querySelector('button[type=submit]');
+  btn.disabled = true; btn.textContent = 'لحظة...';
+  try {
+    await fetch(SHEET_URL, {method:'POST', mode:'no-cors', body:new URLSearchParams({name:f.name.value.trim(), phone})});
+  } catch (err) {}
+  leadMsg.className = 'msg ok';
+  leadMsg.textContent = 'التحميل بدا ✅ كي يكمل، افتح الملف ونصّب التطبيق.';
+  btn.disabled = false; btn.innerHTML = '<svg class="ic"><use href="#dl"/></svg>حمّل التطبيق';
+  location.href = APK_URL;
 });
 
 // Sticky download button on phones, hidden while the main button is on screen
