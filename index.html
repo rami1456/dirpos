@@ -198,6 +198,15 @@ dialog .close{margin-top:10px;color:var(--muted);font-weight:700;min-height:44px
 }
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 </style>
+<!-- TikTok Pixel -->
+<script>
+!function (w, d, t) {
+  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+  ttq.load('DC4B2ABC77U7FA4HER00');
+  ttq.page();
+  ttq.track('ViewContent', {content_name:'DIR POS', content_type:'product', value:7900, currency:'DZD'});
+}(window, document, 'ttq');
+</script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -485,6 +494,10 @@ const box = $('trialBox');
 document.querySelectorAll('.js-trial').forEach(b => b.addEventListener('click', () => {
   if (box.showModal) box.showModal(); else if (APK_URL) location.href = APK_URL;
 }));
+// Ads events (TikTok / Facebook pixels, when present)
+const track = (tt, fb, data) => { try { window.ttq && ttq.track(tt, data || {}); } catch (e) {} try { window.fbq && fb && fbq('track', fb, data || {}); } catch (e) {} };
+document.querySelectorAll('.js-trial').forEach(b => b.addEventListener('click', () => track('ClickButton', null, {content_name:'Essai gratuit'})));
+
 // Name + phone, saved in Google Sheets, then the download starts
 const lead = $('leadForm'), leadMsg = $('leadMsg');
 const fieldOk = (el, ok) => { el.closest('.fld').classList.toggle('bad', !ok); return ok; };
@@ -504,7 +517,10 @@ lead.addEventListener('submit', async e => {
   leadMsg.textContent = 'التحميل بدا ✅ كي يكمل، افتح الملف ونصّب التطبيق.';
   btn.disabled = false; btn.innerHTML = '<svg class="ic"><use href="#dl"/></svg>حمّل التطبيق';
   // Food shops get the app with the ready product catalogue, the others without it.
-  location.href = f.shop.value === 'مواد غذائية' ? APK_URL : APK_GENERAL_URL;
+  track('SubmitForm', 'Lead', {content_name:f.shop.value, value:7900, currency:'DZD'});
+  track('Download', null, {content_name:f.shop.value});
+  const url = f.shop.value === 'مواد غذائية' ? APK_URL : APK_GENERAL_URL;
+  setTimeout(() => { location.href = url; }, 400);
 });
 
 // Sticky download button on phones, hidden while the main button is on screen
