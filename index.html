@@ -207,6 +207,14 @@ dialog .close{margin-top:10px;color:var(--muted);font-weight:700;min-height:44px
   ttq.track('ViewContent', {content_name:'DIR POS', content_type:'product', value:7900, currency:'DZD'});
 }(window, document, 'ttq');
 </script>
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1138400872515573');
+fbq('track', 'PageView');
+fbq('track', 'ViewContent', {content_name:'DIR POS', value:7900, currency:'DZD'});
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1138400872515573&ev=PageView&noscript=1" alt=""></noscript>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -519,6 +527,7 @@ lead.addEventListener('submit', async e => {
   // Food shops get the app with the ready product catalogue, the others without it.
   track('SubmitForm', 'Lead', {content_name:f.shop.value, value:7900, currency:'DZD'});
   track('Download', null, {content_name:f.shop.value});
+  try { window.fbq && fbq('trackCustom', 'Download', {content_name:f.shop.value}); } catch (e) {}
   const url = f.shop.value === 'مواد غذائية' ? APK_URL : APK_GENERAL_URL;
   setTimeout(() => { location.href = url; }, 400);
 });
