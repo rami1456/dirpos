@@ -341,7 +341,7 @@ function openLead(id) {
       </div>
       <label for="fc">البلدية</label>
       <select id="fc" ${locked?'disabled':''}><option value="">${l.commune?esc(l.commune):'اختار الولاية قبل'}</option></select>
-      <input id="fcText" class="hide" placeholder="اكتب البلدية" value="${esc(l.commune)}">
+      <div id="fcErr" class="hide" style="color:var(--red);font-size:14px;margin-top:6px">ما قدرتش نجيب البلديات من 48hr. <button class="btn" data-act="reloadc" style="min-height:36px;margin-inline-start:6px">عاود</button></div>
       <label for="fa">العنوان</label><input id="fa" value="${esc(l.address)}" ${locked?'disabled':''}>
       <label for="fnote">ملاحظة</label><textarea id="fnote">${esc(l.note)}</textarea>
       <div class="total"><span>المجموع (7900 + التوصيل)</span><b id="tot">—</b></div>
@@ -363,22 +363,31 @@ function openLead(id) {
     const fee = feeOf(k, h);
     $('tot').textContent = fee != null ? (price + fee) + ' DA' : '—';
   };
-  fw.onchange = () => { upd(); loadCommunes(fw.value, ''); };
-  document.querySelectorAll('input[name=dl]').forEach(r => r.onchange = upd);
+  fw.onchange = () => { upd(); communesList = []; loadCommunes(fw.value, ''); };
+  document.querySelectorAll('input[name=dl]').forEach(r => r.onchange = () => { upd(); if (communesList.length) fillCommunes(); });
   upd();
   if (w && !locked) loadCommunes(w, l.commune);
 }
 
+let communesList = [];
+// Stop desk: only the communes where 48hr has an office.
+function fillCommunes(current) {
+  const sel = $('fc'); if (!sel) return;
+  const desk = (document.querySelector('input[name=dl]:checked') || {}).value === 'المكتب';
+  const keep = current ?? sel.value;
+  const list = desk ? communesList.filter(c => c.desk) : communesList;
+  sel.innerHTML = `<option value="">${desk ? 'اختار البلدية اللي فيها مكتب 48hr' : 'اختار البلدية'}</option>` + list.map(c => `<option ${c.name===keep?'selected':''}>${esc(c.name)}</option>`).join('');
+}
 async function loadCommunes(w, current) {
-  const sel = $('fc'), txt = $('fcText');
+  const sel = $('fc'), err = $('fcErr');
   if (!w) return;
+  err.classList.add('hide');
   sel.innerHTML = '<option value="">... نجيب البلديات</option>';
   try {
-    const list = (await api('communes', {wilaya: w})).communes;
-    if (!list.length) throw new Error();
-    sel.classList.remove('hide'); txt.classList.add('hide');
-    sel.innerHTML = '<option value="">اختار البلدية</option>' + list.map(c => `<option ${c.name===current?'selected':''}>${esc(c.name)}</option>`).join('');
-  } catch (e) { sel.classList.add('hide'); txt.classList.remove('hide'); }
+    communesList = (await api('communes', {wilaya: w})).communes;
+    if (!communesList.length) throw new Error();
+    fillCommunes(current);
+  } catch (e) { sel.innerHTML = '<option value="">—</option>'; err.classList.remove('hide'); }
 }
 
 function closeSheet() { $('sheet').classList.add('hide'); open = null; render(); }
@@ -388,6 +397,7 @@ $('sheet').addEventListener('click', async e => {
   const act = b.dataset.act, l = open;
   if (act === 'close') return closeSheet();
   if (act === 'dial') return;
+  if (act === 'reloadc') { loadCommunes($('fw').value, ''); return; }
   if (act === 'showcb') { $('cbw').classList.toggle('hide'); return; }
   let data;
   const note = $('fnote').value.trim();
@@ -398,9 +408,9 @@ $('sheet').addEventListener('click', async e => {
   if (act === 'note') { if (!note) return toast('اكتب ملاحظة.', true); data = {note}; }
   if (act === 'confirm') {
     const w = $('fw').value, dl = (document.querySelector('input[name=dl]:checked') || {}).value;
-    const commune = $('fc').classList.contains('hide') ? $('fcText').value.trim() : $('fc').value;
+    const commune = $('fc').value;
     const name = $('fn').value.trim(), address = $('fa').value.trim();
-    if (!name || !w || !dl || !commune) return toast('كمّل الاسم، الولاية، التوصيل والبلدية.', true);
+    if (!name || !w || !dl || !commune) return toast('كمّل الاسم، الولاية، التوصيل، واختار البلدية من القائمة.', true);
     if (dl === 'المنزل' && !address) return toast('اكتب العنوان للتوصيل للمنزل.', true);
     data = {status:'مؤكد', call:true, name, wilaya: w + ' ' + WILAYAS[w-1], delivery: dl, commune, address, note};
   }
