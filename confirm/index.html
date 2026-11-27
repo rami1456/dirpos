@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0d0c0b">
+<title>DIR POS — التأكيد</title>
+<link rel="icon" href="../img/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+/* DIR POS confirmation desk: a call list like CODpilot, black + DIR orange, one card per customer. */
+:root{--bg:#0d0c0b;--panel:#171513;--panel2:#1f1c19;--line:#2c2824;--text:#f3eee8;--muted:#a59b90;--orange:#f25c0a;--orange2:#ff7a1f;--green:#22c08a;--red:#ff6b5b;--blue:#5aa9ff;--yellow:#f3c34b;--f:'El Messiri','Manrope',system-ui,sans-serif}
+*{box-sizing:border-box;min-width:0}
+html,body{margin:0;background:var(--bg);color:var(--text);font:600 16px/1.5 var(--f);overflow-x:clip}
+button,input,select,textarea{font:inherit;color:inherit}
+.num{font-family:Manrope,sans-serif;direction:ltr;unicode-bidi:isolate}
+.hide{display:none!important}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 18px;border-radius:14px;border:1.5px solid var(--line);background:var(--panel2);font-weight:700;cursor:pointer;text-decoration:none;color:var(--text)}
+.btn.main{background:var(--orange);border-color:var(--orange);color:#fff}
+.btn.green{background:var(--green);border-color:var(--green);color:#06291c}
+.btn.wa{background:#1fa855;border-color:#1fa855;color:#fff}
+.btn.red{border-color:var(--red);color:var(--red);background:transparent}
+.btn:disabled{opacity:.5}
+.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--orange2);outline-offset:2px}
+input,select,textarea{width:100%;min-height:48px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);padding:8px 14px;font-size:16px}
+textarea{min-height:76px;resize:vertical}
+label{display:block;font-size:14px;color:var(--muted);margin:10px 0 4px}
+/* login */
+.login{min-height:100dvh;display:grid;place-items:center;padding:24px}
+.login form{width:min(380px,100%);background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:26px}
+.login img{height:46px;display:block;margin:0 auto 6px}
+.login h1{font-size:22px;text-align:center;margin:4px 0 14px}
+.err{color:var(--red);font-size:14px;margin-top:10px;min-height:20px}
+/* app */
+header{position:sticky;top:0;z-index:5;background:rgba(13,12,11,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top{display:flex;align-items:center;gap:10px;padding:10px 14px;max-width:980px;margin:auto}
+.top img{height:30px}
+.top .me{margin-inline-start:auto;color:var(--muted);font-size:14px;text-align:end}
+.icon{width:42px;height:42px;min-height:42px;padding:0;border-radius:12px}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:0 14px 10px;max-width:980px;margin:auto;scrollbar-width:none}
+.tab{flex:none;border:1.5px solid var(--line);border-radius:999px;padding:6px 14px;background:transparent;cursor:pointer;font-weight:700;font-size:15px;white-space:nowrap}
+.tab b{font-family:Manrope;margin-inline-start:6px;color:var(--muted)}
+.tab.on{background:var(--orange);border-color:var(--orange);color:#fff}.tab.on b{color:#fff}
+main{max-width:980px;margin:auto;padding:12px 14px 90px}
+.search{margin-bottom:12px}
+.list{display:grid;gap:10px}
+.card{display:grid;grid-template-columns:1fr auto;gap:4px 10px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:13px 15px;cursor:pointer;text-align:start;width:100%}
+.card .n{font-size:17px;font-weight:700}
+.card .s{color:var(--muted);font-size:14px}
+.chip{display:inline-block;border-radius:999px;padding:2px 10px;font-size:13px;font-weight:700;background:var(--panel2);border:1px solid var(--line);white-space:nowrap}
+.st-جديد{color:var(--blue);border-color:rgba(90,169,255,.4)}
+.st-ما-ردّش,.st-عاود-عيطلو{color:var(--yellow);border-color:rgba(243,195,75,.4)}
+.st-مهتم{color:var(--orange2);border-color:rgba(242,92,10,.5)}
+.st-مؤكد,.st-مبعوث{color:var(--green);border-color:rgba(34,192,138,.45)}
+.st-ملغي{color:var(--red);border-color:rgba(255,107,91,.4)}
+.late{color:var(--red)}
+.empty{text-align:center;color:var(--muted);padding:40px 10px}
+/* sheet */
+.sheet{position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.6);display:flex;align-items:flex-end;justify-content:center}
+.sheet>div{width:min(640px,100%);max-height:94dvh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:22px 22px 0 0;padding:18px 18px 26px}
+@media(min-width:700px){.sheet{align-items:center}.sheet>div{border-radius:22px}}
+.sheet h2{margin:0;font-size:21px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.row>.btn{flex:1 1 130px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.facts{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin-top:10px;font-size:15px}
+.facts dt{color:var(--muted)}.facts dd{margin:0}
+.box{border:1px solid var(--line);border-radius:16px;padding:14px;margin-top:14px;background:var(--panel2)}
+.box h3{margin:0 0 6px;font-size:16px}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.seg label{margin:0;border:1.5px solid var(--line);border-radius:12px;padding:10px;text-align:center;cursor:pointer;color:var(--text)}
+.seg input{display:none}
+.seg input:checked+span{color:var(--orange2)}
+.seg label:has(input:checked){border-color:var(--orange)}
+.seg label:has(input:disabled){opacity:.4;cursor:not-allowed}
+.total{display:flex;justify-content:space-between;align-items:baseline;margin-top:12px;font-size:18px}
+.total b{font-family:Manrope;font-size:26px;color:var(--orange2)}
+.log{white-space:pre-line;color:var(--muted);font-size:13px;margin-top:6px}
+.reasons{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+/* admin */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:14px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:12px 14px}
+.kpi b{display:block;font-family:Manrope;font-size:28px}
+.kpi span{color:var(--muted);font-size:14px}
+table{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;font-size:15px}
+th,td{padding:10px;border-bottom:1px solid var(--line);text-align:start}
+th{color:var(--muted);font-weight:600}
+td.r{text-align:end;font-family:Manrope}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#fff;color:#111;border-radius:12px;padding:10px 16px;font-weight:700;z-index:30;max-width:92vw}
+.toast.bad{background:var(--red);color:#fff}
+.spin{width:22px;height:22px;border:3px solid rgba(255,255,255,.25);border-top-color:#fff;border-radius:50%;animation:s .8s linear infinite}
+@keyframes s{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.spin{animation:none}}
+</style>
+</head>
+<body>
+
+<section class="login" id="loginView">
+  <form id="loginForm" novalidate>
+    <img src="../img/logo-wide.webp" alt="DIR POS">
+    <h1>تأكيد الطلبيات</h1>
+    <label for="lu">الاسم</label>
+    <input id="lu" autocomplete="username" required>
+    <label for="lp">الـ PIN</label>
+    <input id="lp" type="password" inputmode="numeric" autocomplete="current-password" required>
+    <button class="btn main" style="width:100%;margin-top:16px" type="submit">دخول</button>
+    <div class="err" id="lerr" role="alert"></div>
+  </form>
+</section>
+
+<div id="appView" class="hide">
+  <header>
+    <div class="top">
+      <img src="../img/logo-wide.webp" alt="DIR POS">
+      <div class="me"><div id="meName"></div><div id="sync" class="num" style="font-size:12px"></div></div>
+      <button class="btn icon" id="refresh" title="تحديث" aria-label="تحديث">⟳</button>
+      <button class="btn icon" id="logout" title="خروج" aria-label="خروج">⎋</button>
+    </div>
+    <nav class="tabs" id="tabs"></nav>
+  </header>
+  <main>
+    <div id="listView">
+      <input class="search" id="q" type="search" placeholder="بحث بالاسم ولا الرقم">
+      <div class="list" id="list"></div>
+    </div>
+    <div id="adminView" class="hide"></div>
+  </main>
+</div>
+
+<div class="sheet hide" id="sheet" role="dialog" aria-modal="true"><div id="sheetBody"></div></div>
+
+<script>
+{
+const API = "https://script.google.com/macros/s/AKfycbzGfeBLcHIxixqZXsXXdLj0kuPpZv0_rE973_7g5BPMaJ2SJdGYgVq8J6_bBrjuaovDNw/exec";
+const WILAYAS = ["أدرار","الشلف","الأغواط","أم البواقي","باتنة","بجاية","بسكرة","بشار","البليدة","البويرة","تمنراست","تبسة","تلمسان","تيارت","تيزي وزو","الجزائر","الجلفة","جيجل","سطيف","سعيدة","سكيكدة","سيدي بلعباس","عنابة","قالمة","قسنطينة","المدية","مستغانم","المسيلة","معسكر","ورقلة","وهران","البيض","إليزي","برج بوعريريج","بومرداس","الطارف","تندوف","تيسمسيلت","الوادي","خنشلة","سوق أهراس","تيبازة","ميلة","عين الدفلى","النعامة","عين تموشنت","غرداية","غليزان","تيميمون","برج باجي مختار","أولاد جلال","بني عباس","عين صالح","عين قزام","تقرت","جانت","المغير","المنيعة"];
+const WA_TEXT = n => `السلام عليكم ${n || ''} 👋 معاك فريق DIR POS. شفنا بلي حمّلت التطبيق، كيفاش لقيتو؟ إذا عجبك، نفعّلولك الرخصة مدى الحياة بـ 7900 دج والخلاص عند الاستلام 🙏`;
+const REASONS = ['ما حبش', 'غالي عليه', 'ما عندوش أندرويد', 'رقم غالط', 'جرّب وما عجبوش', 'آخر'];
+const TABS = [
+  {k:'due', t:'لازم نعيطو'}, {k:'all', t:'الكل'}, {k:'مهتم', t:'مهتمين'},
+  {k:'مؤكد', t:'مؤكدة'}, {k:'مبعوث', t:'مبعوثة'}, {k:'ملغي', t:'ملغية'}
+];
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let me = null, cred = null, leads = [], fees = {}, price = 7900, tab = 'due', open = null;
+
+const store = {get(){try{return JSON.parse(localStorage.getItem('dirpos_confirm')||'null')}catch(e){return null}},
+  set(v){try{v?localStorage.setItem('dirpos_confirm',JSON.stringify(v)):localStorage.removeItem('dirpos_confirm')}catch(e){}}};
+
+async function api(action, extra) {
+  const res = await fetch(API, {method:'POST', body: JSON.stringify(Object.assign({action, user:cred?.user, pin:cred?.pin}, extra || {}))});
+  const r = await res.json();
+  if (!r.ok) throw new Error(r.error || 'خطأ');
+  return r;
+}
+function toast(msg, bad) {
+  const t = document.createElement('div'); t.className = 'toast' + (bad ? ' bad' : ''); t.textContent = msg;
+  document.body.appendChild(t); setTimeout(() => t.remove(), 3200);
+}
+const fmtD = s => { if (!s) return ''; const d = new Date(s); return isNaN(d) ? '' : d.toLocaleDateString('fr-DZ',{day:'2-digit',month:'2-digit'}) + ' ' + d.toLocaleTimeString('fr-DZ',{hour:'2-digit',minute:'2-digit'}); };
+const day = s => { const d = new Date(s); return isNaN(d) ? '' : d.toLocaleDateString('fr-DZ',{day:'2-digit',month:'2-digit',year:'2-digit'}); };
+const whenDue = l => l.callback || l.due || l.at;
+const isOpen = l => ['جديد','ما ردّش','عاود عيطلو','مهتم'].includes(l.status);
+const isDue = l => isOpen(l) && new Date(whenDue(l)) <= new Date();
+const intl = p => '213' + String(p).replace(/\D/g,'').replace(/^0/,'');
+
+/* ---------- login ---------- */
+$('loginForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  cred = {user: $('lu').value.trim(), pin: $('lp').value.trim()};
+  $('lerr').textContent = '';
+  try { await start(); store.set(cred); }
+  catch (err) { $('lerr').textContent = err.message === 'Failed to fetch' ? 'ما كانش أنترنت.' : err.message; cred = null; }
+});
+$('logout').onclick = () => { store.set(null); location.reload(); };
+$('refresh').onclick = () => load(true);
+
+async function start() {
+  const r = await api('login');
+  me = r.me; fees = r.fees; price = r.price;
+  $('meName').textContent = me.name + (me.role === 'admin' ? ' · مدير' : '');
+  $('loginView').classList.add('hide'); $('appView').classList.remove('hide');
+  await load();
+}
+
+async function load(manual) {
+  $('sync').textContent = 'تحديث...';
+  try {
+    leads = (await api('list')).leads;
+    $('sync').textContent = new Date().toLocaleTimeString('fr-DZ',{hour:'2-digit',minute:'2-digit'});
+    render();
+  } catch (err) { $('sync').textContent = ''; toast(err.message, true); }
+}
+setInterval(() => { if (me && !open) load(); }, 60000);
+
+/* ---------- list ---------- */
+function inTab(l) {
+  if (tab === 'due') return isDue(l);
+  if (tab === 'all') return true;
+  return l.status === tab;
+}
+function render() {
+  const tabs = me.role === 'admin' ? TABS.concat([{k:'admin', t:'📊 الإحصائيات'}]) : TABS;
+  $('tabs').innerHTML = tabs.map(x => {
+    const n = x.k === 'admin' ? '' : `<b>${leads.filter(l => (x.k==='due'?isDue(l):x.k==='all'?true:l.status===x.k)).length}</b>`;
+    return `<button class="tab${tab===x.k?' on':''}" data-k="${x.k}">${x.t}${n}</button>`;
+  }).join('');
+  $('listView').classList.toggle('hide', tab === 'admin');
+  $('adminView').classList.toggle('hide', tab !== 'admin');
+  if (tab === 'admin') return renderAdmin();
+  const q = $('q').value.trim();
+  const rows = leads.filter(inTab).filter(l => !q || l.name.includes(q) || l.phone.includes(q.replace(/\s/g,'')))
+    .sort((a, b) => new Date(whenDue(a)) - new Date(whenDue(b)));
+  $('list').innerHTML = rows.length ? rows.map(l => {
+    const late = isDue(l) && (Date.now() - new Date(whenDue(l))) > 864e5;
+    return `<button class="card" data-id="${esc(l.id)}">
+      <span class="n">${esc(l.name || 'بلا اسم')}</span>
+      <span class="chip st-${esc(l.status.replace(/ /g,'-'))}">${esc(l.status)}</span>
+      <span class="s"><span class="num">${esc(l.phone)}</span> · ${esc(l.shop || '—')}${l.agent?' · '+esc(l.agent):''}</span>
+      <span class="s ${late?'late':''}">${l.tracking ? esc(l.shipStatus||'') : (isOpen(l) ? '📞 '+esc(fmtD(whenDue(l))) : '')}${l.attempts?' · '+l.attempts+'×':''}</span>
+    </button>`;
+  }).join('') : `<div class="empty">${tab==='due'?'ما كان حتى زبون لازم تعيطلو دروك 👌':'والو هنا.'}</div>`;
+}
+$('tabs').addEventListener('click', e => { const b = e.target.closest('.tab'); if (b) { tab = b.dataset.k; render(); } });
+$('q').addEventListener('input', render);
+$('list').addEventListener('click', e => { const c = e.target.closest('.card'); if (c) openLead(c.dataset.id); });
+
+/* ---------- one customer ---------- */
+function feeOf(w, home) { const f = fees[w]; return f ? f[home ? 1 : 0] : null; }
+function openLead(id) {
+  const l = leads.find(x => x.id === id); if (!l) return;
+  open = l;
+  const w = Number(String(l.wilaya).split(' ')[0]) || '';
+  const home = l.delivery === 'المنزل';
+  const locked = ['مؤكد','مبعوث'].includes(l.status);
+  $('sheetBody').innerHTML = `
+    <div style="display:flex;justify-content:space-between;gap:10px;align-items:start">
+      <div><h2>${esc(l.name || 'بلا اسم')}</h2><span class="chip st-${esc(l.status.replace(/ /g,'-'))}">${esc(l.status)}</span></div>
+      <button class="btn icon" data-act="close" aria-label="سكّر">✕</button>
+    </div>
+    <dl class="facts">
+      <dt>الهاتف</dt><dd class="num" style="text-align:end">${esc(l.phone)}</dd>
+      <dt>النشاط</dt><dd>${esc(l.shop || '—')}</dd>
+      <dt>حمّل</dt><dd>${esc(fmtD(l.at))}</dd>
+      <dt>المحاولات</dt><dd>${l.attempts}${l.lastCall?' · آخر وحدة '+esc(fmtD(l.lastCall)):''}</dd>
+      ${l.agent?`<dt>العامل</dt><dd>${esc(l.agent)}</dd>`:''}
+      ${l.tracking?`<dt>التتبع</dt><dd class="num" style="text-align:end">${esc(l.tracking)}</dd><dt>التوصيل</dt><dd>${esc(l.shipStatus)}</dd>`:''}
+    </dl>
+    <div class="row">
+      <a class="btn main" href="tel:${esc(l.phone)}" data-act="dial">📞 اتصل</a>
+      <a class="btn wa" href="https://wa.me/${intl(l.phone)}?text=${encodeURIComponent(WA_TEXT(l.name))}" target="_blank" rel="noopener">واتساب</a>
+    </div>
+    ${locked ? '' : `
+    <div class="box"><h3>النتيجة تاع الاتصال</h3>
+      <div class="row" style="margin-top:4px">
+        <button class="btn" data-act="noanswer">ما ردّش</button>
+        <button class="btn" data-act="interested">مهتم</button>
+      </div>
+      <label for="cb">عاود عيطلو نهار</label>
+      <div class="row" style="margin-top:0"><input id="cb" type="datetime-local" style="flex:2 1 180px"><button class="btn" data-act="callback" style="flex:1 1 100px">سجّل</button></div>
+      <label>ملغي، علاش؟</label>
+      <div class="reasons">${REASONS.map(r => `<button class="btn red" data-act="cancel" data-r="${r}" style="min-height:40px">${r}</button>`).join('')}</div>
+    </div>`}
+    <div class="box"><h3>${locked ? 'الطلبية' : 'أكّد الطلبية'}</h3>
+      <label for="fn">الاسم الكامل</label><input id="fn" value="${esc(l.name)}" ${locked?'disabled':''}>
+      <label for="fw">الولاية</label>
+      <select id="fw" ${locked?'disabled':''}><option value="">اختار الولاية</option>${WILAYAS.map((n,i)=>{const k=i+1,f=fees[k];return `<option value="${k}" ${f?'':'disabled'} ${w===k?'selected':''}>${String(k).padStart(2,'0')} - ${n}${f?'':' (غير متوفر)'}</option>`}).join('')}</select>
+      <label>التوصيل</label>
+      <div class="seg">
+        <label><input type="radio" name="dl" value="المكتب" ${!home?'checked':''} ${locked?'disabled':''}><span>المكتب <b class="num" id="pd"></b></span></label>
+        <label><input type="radio" name="dl" value="المنزل" ${home?'checked':''} ${locked?'disabled':''}><span>المنزل <b class="num" id="ph"></b></span></label>
+      </div>
+      <label for="fc">البلدية</label>
+      <select id="fc" ${locked?'disabled':''}><option value="">${l.commune?esc(l.commune):'اختار الولاية قبل'}</option></select>
+      <input id="fcText" class="hide" placeholder="اكتب البلدية" value="${esc(l.commune)}">
+      <label for="fa">العنوان</label><input id="fa" value="${esc(l.address)}" ${locked?'disabled':''}>
+      <label for="fnote">ملاحظة</label><textarea id="fnote">${esc(l.note)}</textarea>
+      <div class="total"><span>المجموع (7900 + التوصيل)</span><b id="tot">—</b></div>
+      <div class="row">
+        ${locked ? '' : '<button class="btn green" data-act="confirm">✅ أكّد الطلبية</button>'}
+        <button class="btn" data-act="note">سجّل الملاحظة</button>
+        ${l.status==='مؤكد' ? '<button class="btn main" data-act="ship">🚚 ابعث لـ 48hr</button>' : ''}
+      </div>
+    </div>
+    ${l.log?`<div class="box"><h3>السجل</h3><div class="log">${esc(l.log)}</div></div>`:''}`;
+  $('sheet').classList.remove('hide');
+  const fw = $('fw');
+  const upd = () => {
+    const k = Number(fw.value), f = fees[k];
+    const ri = [...document.querySelectorAll('input[name=dl]')];
+    $('pd').textContent = f && f[0] != null ? f[0] : '—'; $('ph').textContent = f && f[1] != null ? f[1] : '—';
+    if (!locked) ri.forEach(r => { r.disabled = !f || f[r.value==='المنزل'?1:0] == null; if (r.checked && r.disabled) { const o = ri.find(x => !x.disabled); if (o) o.checked = true; } });
+    const h = (ri.find(r => r.checked) || {}).value === 'المنزل';
+    const fee = feeOf(k, h);
+    $('tot').textContent = fee != null ? (price + fee) + ' DA' : '—';
+  };
+  fw.onchange = () => { upd(); loadCommunes(fw.value, ''); };
+  document.querySelectorAll('input[name=dl]').forEach(r => r.onchange = upd);
+  upd();
+  if (w && !locked) loadCommunes(w, l.commune);
+}
+
+async function loadCommunes(w, current) {
+  const sel = $('fc'), txt = $('fcText');
+  if (!w) return;
+  sel.innerHTML = '<option value="">... نجيب البلديات</option>';
+  try {
+    const list = (await api('communes', {wilaya: w})).communes;
+    if (!list.length) throw new Error();
+    sel.classList.remove('hide'); txt.classList.add('hide');
+    sel.innerHTML = '<option value="">اختار البلدية</option>' + list.map(c => `<option ${c.name===current?'selected':''}>${esc(c.name)}</option>`).join('');
+  } catch (e) { sel.classList.add('hide'); txt.classList.remove('hide'); }
+}
+
+function closeSheet() { $('sheet').classList.add('hide'); open = null; render(); }
+$('sheet').addEventListener('click', async e => {
+  if (e.target.id === 'sheet') return closeSheet();
+  const b = e.target.closest('[data-act]'); if (!b || !open) return;
+  const act = b.dataset.act, l = open;
+  if (act === 'close') return closeSheet();
+  if (act === 'dial') return;
+  let data;
+  const note = $('fnote').value.trim();
+  if (act === 'noanswer') data = {status:'ما ردّش', call:true, callback: new Date(Date.now()+3*36e5).toISOString()};
+  if (act === 'interested') data = {status:'مهتم', call:true, callback: new Date(Date.now()+24*36e5).toISOString()};
+  if (act === 'callback') { const v = $('cb').value; if (!v) return toast('اختار النهار والساعة.', true); data = {status:'عاود عيطلو', call:true, callback: new Date(v).toISOString()}; }
+  if (act === 'cancel') data = {status:'ملغي', call:true, note: b.dataset.r + (note ? ' — ' + note : '')};
+  if (act === 'note') { if (!note) return toast('اكتب ملاحظة.', true); data = {note}; }
+  if (act === 'confirm') {
+    const w = $('fw').value, dl = (document.querySelector('input[name=dl]:checked') || {}).value;
+    const commune = $('fc').classList.contains('hide') ? $('fcText').value.trim() : $('fc').value;
+    const name = $('fn').value.trim(), address = $('fa').value.trim();
+    if (!name || !w || !dl || !commune) return toast('كمّل الاسم، الولاية، التوصيل والبلدية.', true);
+    if (dl === 'المنزل' && !address) return toast('اكتب العنوان للتوصيل للمنزل.', true);
+    data = {status:'مؤكد', call:true, name, wilaya: w + ' ' + WILAYAS[w-1], delivery: dl, commune, address, note};
+  }
+  b.disabled = true; const old = b.innerHTML; b.innerHTML = '<span class="spin"></span>';
+  try {
+    const r = act === 'ship' ? await api('ship', {id: l.id}) : await api('update', {id: l.id, data});
+    leads = leads.map(x => x.id === l.id ? r.lead : x);
+    toast(act === 'ship' ? 'تبعثت لـ 48hr ✅ ' + r.lead.tracking : 'تسجلت ✅');
+    if (act === 'confirm') openLead(l.id); else closeSheet();
+  } catch (err) { toast(err.message, true); b.disabled = false; b.innerHTML = old; }
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && open) closeSheet(); });
+
+/* ---------- admin ---------- */
+async function renderAdmin() {
+  const by = {};
+  leads.forEach(l => { const a = l.agent || '— بلا عامل'; (by[a] = by[a] || {n:0,calls:0,conf:0,ship:0,cancel:0}); const s = by[a];
+    s.n++; s.calls += l.attempts; if (['مؤكد','مبعوث'].includes(l.status)) s.conf++; if (l.tracking) s.ship++; if (l.status==='ملغي') s.cancel++; });
+  const total = leads.length, conf = leads.filter(l => ['مؤكد','مبعوث'].includes(l.status)).length;
+  const reached = leads.filter(l => l.attempts > 0).length;
+  const today = new Date().toDateString(), dl = leads.filter(l => new Date(l.at).toDateString() === today).length;
+  $('adminView').innerHTML = `
+    <div class="kpis">
+      <div class="kpi"><b>${total}</b><span>حمّلو التطبيق</span></div>
+      <div class="kpi"><b>${dl}</b><span>اليوم</span></div>
+      <div class="kpi"><b>${reached}</b><span>تعيطلهم</span></div>
+      <div class="kpi"><b>${conf}</b><span>أكّدو</span></div>
+      <div class="kpi"><b>${reached ? Math.round(conf*100/reached) : 0}%</b><span>نسبة التأكيد</span></div>
+      <div class="kpi"><b>${(conf*price).toLocaleString('fr-DZ')}</b><span>دج (بلا التوصيل)</span></div>
+    </div>
+    <div class="row" style="margin:0 0 12px"><button class="btn" id="trackAll">🚚 حدّث حالة التوصيل من 48hr</button></div>
+    <div style="overflow-x:auto"><table>
+      <thead><tr><th>العامل</th><th>زبائن</th><th>اتصالات</th><th>أكّدو</th><th>بعثو</th><th>ملغي</th><th>النسبة</th></tr></thead>
+      <tbody>${Object.entries(by).map(([a,s]) => `<tr><td>${esc(a)}</td><td class="r">${s.n}</td><td class="r">${s.calls}</td><td class="r">${s.conf}</td><td class="r">${s.ship}</td><td class="r">${s.cancel}</td><td class="r">${s.n?Math.round(s.conf*100/s.n):0}%</td></tr>`).join('')}</tbody>
+    </table></div>
+    <div class="box"><h3>العمال</h3><div id="users">...</div>
+      <div class="grid2" style="margin-top:10px">
+        <div><label for="un">الاسم</label><input id="un"></div>
+        <div><label for="up">PIN جديد</label><input id="up" inputmode="numeric"></div>
+      </div>
+      <div class="row"><select id="ur" style="flex:1 1 120px"><option value="agent">عامل</option><option value="admin">مدير</option></select>
+      <button class="btn main" id="uadd" style="flex:1 1 120px">زيد / بدّل</button></div>
+      <p class="s" style="color:var(--muted);font-size:13px">باش توقف عامل، اكتب اسمو واضغط على "وقّف" في القائمة.</p>
+    </div>`;
+  $('trackAll').onclick = async e => { e.target.disabled = true; try { leads = (await api('track')).leads; toast('تحدّثت ✅'); renderAdmin(); } catch (err) { toast(err.message, true); e.target.disabled = false; } };
+  $('uadd').onclick = async () => { try { showUsers((await api('users', {data:{name:$('un').value, pin:$('up').value, role:$('ur').value}})).users); $('un').value=$('up').value=''; toast('تسجّل ✅'); } catch (err) { toast(err.message, true); } };
+  try { showUsers((await api('users')).users); } catch (err) { $('users').textContent = err.message; }
+}
+function showUsers(us) {
+  $('users').innerHTML = us.map(u => `<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--line)">
+    <span>${esc(u.name)} <span class="chip">${u.role==='admin'?'مدير':'عامل'}</span> ${u.active?'':'<span class="chip st-ملغي">موقّف</span>'}</span>
+    ${u.name===me.name?'':`<button class="btn" style="min-height:36px" data-u="${esc(u.name)}" data-r="${u.role}" data-a="${u.active?0:1}">${u.active?'وقّف':'رجّع'}</button>`}</div>`).join('');
+  $('users').querySelectorAll('[data-u]').forEach(b => b.onclick = async () => {
+    try { showUsers((await api('users', {data:{name:b.dataset.u, role:b.dataset.r, active:b.dataset.a==='1'}})).users); } catch (err) { toast(err.message, true); } });
+}
+
+/* ---------- boot ---------- */
+cred = store.get();
+if (cred) start().catch(() => { store.set(null); cred = null; });
+}
+</script>
+</body>
+</html>
