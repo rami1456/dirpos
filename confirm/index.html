@@ -10,85 +10,120 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
-/* DIR POS confirmation desk: a call list like CODpilot, black + DIR orange, one card per customer. */
-:root{--bg:#0d0c0b;--panel:#171513;--panel2:#1f1c19;--line:#2c2824;--text:#f3eee8;--muted:#a59b90;--orange:#f25c0a;--orange2:#ff7a1f;--green:#22c08a;--red:#ff6b5b;--blue:#5aa9ff;--yellow:#f3c34b;--f:'El Messiri','Manrope',system-ui,sans-serif}
+/* DIR POS confirmation desk — like a pro call-centre app: black glass, DIR orange glow,
+   one coloured lane per status, call + WhatsApp right on each card. */
+:root{--bg:#0a0908;--panel:#141210;--panel2:#1c1916;--line:rgba(255,255,255,.07);--line2:rgba(255,255,255,.12);--text:#f6f1ea;--muted:#9b9086;--orange:#f25c0a;--orange2:#ff8a2a;--green:#1fc283;--red:#ff5f57;--blue:#4fa3ff;--yellow:#f5c044;--violet:#a78bfa;--f:'El Messiri',system-ui,sans-serif;--n:'Manrope',system-ui,sans-serif}
 *{box-sizing:border-box;min-width:0}
-html,body{margin:0;background:var(--bg);color:var(--text);font:600 16px/1.5 var(--f);overflow-x:clip}
+html,body{margin:0;background:var(--bg);color:var(--text);font:600 16px/1.5 var(--f);overflow-x:clip;-webkit-tap-highlight-color:transparent}
+body{background:radial-gradient(700px 380px at 85% -120px,rgba(242,92,10,.22),transparent 70%),radial-gradient(500px 300px at 0 110%,rgba(242,92,10,.08),transparent 70%),var(--bg);background-attachment:fixed;min-height:100dvh}
 button,input,select,textarea{font:inherit;color:inherit}
-.num{font-family:Manrope,sans-serif;direction:ltr;unicode-bidi:isolate}
+svg.i{width:20px;height:20px;flex:none;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.num{font-family:var(--n);direction:ltr;unicode-bidi:isolate;font-weight:700;letter-spacing:.2px}
 .hide{display:none!important}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 18px;border-radius:14px;border:1.5px solid var(--line);background:var(--panel2);font-weight:700;cursor:pointer;text-decoration:none;color:var(--text)}
-.btn.main{background:var(--orange);border-color:var(--orange);color:#fff}
-.btn.green{background:var(--green);border-color:var(--green);color:#06291c}
-.btn.wa{background:#1fa855;border-color:#1fa855;color:#fff}
-.btn.red{border-color:var(--red);color:var(--red);background:transparent}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 18px;border-radius:14px;border:1px solid var(--line2);background:var(--panel2);font-weight:700;cursor:pointer;text-decoration:none;color:var(--text);transition:transform .12s,background .15s}
+.btn:active{transform:scale(.97)}
+.btn.main{background:linear-gradient(180deg,var(--orange2),var(--orange));border-color:transparent;color:#fff;box-shadow:0 8px 22px -8px rgba(242,92,10,.7)}
+.btn.green{background:linear-gradient(180deg,#2bd896,var(--green));border-color:transparent;color:#032a1b;box-shadow:0 8px 22px -10px rgba(31,194,131,.8)}
+.btn.wa{background:#1fa855;border-color:transparent;color:#fff}
+.btn.ghost{background:transparent}
 .btn:disabled{opacity:.5}
-.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--orange2);outline-offset:2px}
-input,select,textarea{width:100%;min-height:48px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);padding:8px 14px;font-size:16px}
-textarea{min-height:76px;resize:vertical}
-label{display:block;font-size:14px;color:var(--muted);margin:10px 0 4px}
+.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,.card:focus-visible{outline:2px solid var(--orange2);outline-offset:2px}
+input,select,textarea{width:100%;min-height:50px;border-radius:14px;border:1px solid var(--line2);background:#0f0e0c;padding:10px 14px;font-size:16px}
+input:focus,select:focus,textarea:focus{border-color:var(--orange);outline:none;box-shadow:0 0 0 3px rgba(242,92,10,.18)}
+textarea{min-height:80px;resize:vertical}
+label{display:block;font-size:14px;color:var(--muted);margin:12px 0 6px}
 /* login */
 .login{min-height:100dvh;display:grid;place-items:center;padding:24px}
-.login form{width:min(380px,100%);background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:26px}
-.login img{height:46px;display:block;margin:0 auto 6px}
-.login h1{font-size:22px;text-align:center;margin:4px 0 14px}
-.err{color:var(--red);font-size:14px;margin-top:10px;min-height:20px}
-/* app */
-header{position:sticky;top:0;z-index:5;background:rgba(13,12,11,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
-.top{display:flex;align-items:center;gap:10px;padding:10px 14px;max-width:980px;margin:auto}
+.login form{width:min(400px,100%);background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.015));border:1px solid var(--line2);border-radius:26px;padding:30px 26px;box-shadow:0 30px 80px -30px rgba(0,0,0,.8)}
+.login img{height:52px;display:block;margin:0 auto 10px}
+.login h1{font-size:24px;text-align:center;margin:0}
+.login p{text-align:center;color:var(--muted);margin:2px 0 14px;font-size:15px}
+.err{color:var(--red);font-size:14px;margin-top:10px;min-height:20px;text-align:center}
+/* header */
+header{position:sticky;top:0;z-index:5;background:rgba(10,9,8,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.top{display:flex;align-items:center;gap:10px;padding:12px 16px 8px;max-width:1000px;margin:auto}
 .top img{height:30px}
-.top .me{margin-inline-start:auto;color:var(--muted);font-size:14px;text-align:end}
-.icon{width:42px;height:42px;min-height:42px;padding:0;border-radius:12px}
-.tabs{display:flex;gap:6px;overflow-x:auto;padding:0 14px 10px;max-width:980px;margin:auto;scrollbar-width:none}
-.tab{flex:none;border:1.5px solid var(--line);border-radius:999px;padding:6px 14px;background:transparent;cursor:pointer;font-weight:700;font-size:15px;white-space:nowrap}
-.tab b{font-family:Manrope;margin-inline-start:6px;color:var(--muted)}
-.tab.on{background:var(--orange);border-color:var(--orange);color:#fff}.tab.on b{color:#fff}
-main{max-width:980px;margin:auto;padding:12px 14px 90px}
-.search{margin-bottom:12px}
+.me{margin-inline-start:auto;text-align:end;line-height:1.25}
+.me b{display:block;font-size:15px}.me span{color:var(--muted);font-size:12px}
+.icon{width:44px;height:44px;min-height:44px;padding:0;border-radius:14px}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:4px 16px 12px;max-width:1000px;margin:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;display:flex;align-items:center;gap:8px;border:1px solid var(--line2);border-radius:999px;padding:7px 14px;background:rgba(255,255,255,.03);cursor:pointer;font-weight:700;font-size:15px;white-space:nowrap;color:var(--muted)}
+.tab b{font-family:var(--n);font-size:13px;min-width:24px;height:22px;padding:0 6px;border-radius:999px;background:rgba(255,255,255,.08);display:grid;place-items:center;color:var(--text)}
+.tab.on{background:var(--text);border-color:var(--text);color:#111}.tab.on b{background:var(--orange);color:#fff}
+main{max-width:1000px;margin:auto;padding:14px 16px 100px}
+.searchw{position:relative;margin-bottom:14px}
+.searchw svg{position:absolute;inset-inline-start:14px;top:15px;color:var(--muted)}
+.searchw input{padding-inline-start:44px}
+/* cards */
 .list{display:grid;gap:10px}
-.card{display:grid;grid-template-columns:1fr auto;gap:4px 10px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:13px 15px;cursor:pointer;text-align:start;width:100%}
-.card .n{font-size:17px;font-weight:700}
-.card .s{color:var(--muted);font-size:14px}
-.chip{display:inline-block;border-radius:999px;padding:2px 10px;font-size:13px;font-weight:700;background:var(--panel2);border:1px solid var(--line);white-space:nowrap}
-.st-جديد{color:var(--blue);border-color:rgba(90,169,255,.4)}
-.st-ما-ردّش,.st-عاود-عيطلو{color:var(--yellow);border-color:rgba(243,195,75,.4)}
-.st-مهتم{color:var(--orange2);border-color:rgba(242,92,10,.5)}
-.st-مؤكد,.st-مبعوث{color:var(--green);border-color:rgba(34,192,138,.45)}
-.st-ملغي{color:var(--red);border-color:rgba(255,107,91,.4)}
-.late{color:var(--red)}
-.empty{text-align:center;color:var(--muted);padding:40px 10px}
+@media(min-width:760px){.list{grid-template-columns:1fr 1fr}}
+.card{position:relative;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015));border:1px solid var(--line);border-radius:20px;padding:14px;cursor:pointer;overflow:hidden}
+.card::before{content:"";position:absolute;inset-block:14px;inset-inline-start:0;width:4px;border-radius:0 4px 4px 0;background:var(--c,var(--muted))}
+.av{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;font-weight:700;font-size:18px;color:#fff;background:var(--c,#444);box-shadow:inset 0 -10px 20px rgba(0,0,0,.25)}
+.who .n{font-size:17px;font-weight:700;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.who .s{color:var(--muted);font-size:13.5px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:2px}
+.quick{display:flex;gap:6px}
+.qb{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;border:1px solid var(--line2);background:rgba(255,255,255,.04);color:var(--text)}
+.qb.call{background:rgba(242,92,10,.15);border-color:rgba(242,92,10,.35);color:var(--orange2)}
+.qb.wa{background:rgba(31,168,85,.15);border-color:rgba(31,168,85,.35);color:#3fd27b}
+.chip{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:1px 9px;font-size:12.5px;font-weight:700;background:rgba(255,255,255,.06);white-space:nowrap}
+.chip.st{color:var(--c);background:color-mix(in srgb,var(--c) 16%,transparent)}
+.chip.st::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.late{color:var(--red)!important}
+.empty{text-align:center;color:var(--muted);padding:60px 10px}
+.empty svg{width:46px;height:46px;color:var(--orange2);margin-bottom:8px}
 /* sheet */
-.sheet{position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.6);display:flex;align-items:flex-end;justify-content:center}
-.sheet>div{width:min(640px,100%);max-height:94dvh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:22px 22px 0 0;padding:18px 18px 26px}
-@media(min-width:700px){.sheet{align-items:center}.sheet>div{border-radius:22px}}
-.sheet h2{margin:0;font-size:21px}
+.sheet{position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.65);backdrop-filter:blur(4px);display:flex;align-items:flex-end;justify-content:center}
+.sheet>div{width:min(640px,100%);max-height:94dvh;overflow:auto;background:#12100e;border:1px solid var(--line2);border-radius:28px 28px 0 0;padding:10px 18px 28px;animation:up .22s ease-out}
+.sheet>div::before{content:"";display:block;width:44px;height:5px;border-radius:9px;background:var(--line2);margin:0 auto 12px}
+@keyframes up{from{transform:translateY(30px);opacity:.6}}
+@media(min-width:700px){.sheet{align-items:center}.sheet>div{border-radius:28px}}
+@media(prefers-reduced-motion:reduce){.sheet>div{animation:none}}
+.hd{display:flex;gap:14px;align-items:center}
+.hd .av{width:58px;height:58px;font-size:22px;border-radius:18px}
+.hd h2{margin:0;font-size:22px;line-height:1.2}
+.hd .x{margin-inline-start:auto}
+.facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:14px}
+.fact{background:rgba(255,255,255,.035);border:1px solid var(--line);border-radius:14px;padding:9px 12px}
+.fact span{display:block;color:var(--muted);font-size:12.5px}.fact b{font-size:15px}
 .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 .row>.btn{flex:1 1 130px}
+.big{min-height:56px;font-size:17px;border-radius:16px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.facts{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin-top:10px;font-size:15px}
-.facts dt{color:var(--muted)}.facts dd{margin:0}
-.box{border:1px solid var(--line);border-radius:16px;padding:14px;margin-top:14px;background:var(--panel2)}
-.box h3{margin:0 0 6px;font-size:16px}
+.box{border:1px solid var(--line);border-radius:20px;padding:16px;margin-top:14px;background:rgba(255,255,255,.025)}
+.box h3{margin:0 0 4px;font-size:16px;display:flex;align-items:center;gap:8px}
+.box h3 svg{color:var(--orange2)}
+.acts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
+.act{display:grid;justify-items:center;gap:4px;padding:12px 6px;border-radius:16px;border:1px solid var(--line2);background:rgba(255,255,255,.03);cursor:pointer;font-weight:700;font-size:14px;color:var(--text)}
+.act svg{width:24px;height:24px;color:var(--c)}
+.act:active{transform:scale(.97)}
+.cbw{margin-top:10px}
+.reasons{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.reason{border:1px solid rgba(255,95,87,.35);color:#ff8c85;background:rgba(255,95,87,.08);border-radius:999px;padding:7px 13px;font-weight:700;font-size:14px;cursor:pointer}
 .seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.seg label{margin:0;border:1.5px solid var(--line);border-radius:12px;padding:10px;text-align:center;cursor:pointer;color:var(--text)}
+.seg label{margin:0;border:1px solid var(--line2);border-radius:14px;padding:12px 10px;text-align:center;cursor:pointer;color:var(--text);background:#0f0e0c}
+.seg label b{display:block;color:var(--orange2)}
 .seg input{display:none}
-.seg input:checked+span{color:var(--orange2)}
-.seg label:has(input:checked){border-color:var(--orange)}
-.seg label:has(input:disabled){opacity:.4;cursor:not-allowed}
-.total{display:flex;justify-content:space-between;align-items:baseline;margin-top:12px;font-size:18px}
-.total b{font-family:Manrope;font-size:26px;color:var(--orange2)}
-.log{white-space:pre-line;color:var(--muted);font-size:13px;margin-top:6px}
-.reasons{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.seg label:has(input:checked){border-color:var(--orange);background:rgba(242,92,10,.12)}
+.seg label:has(input:disabled){opacity:.35;cursor:not-allowed}
+.total{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding:14px 16px;border-radius:16px;background:linear-gradient(135deg,rgba(242,92,10,.22),rgba(242,92,10,.06));border:1px solid rgba(242,92,10,.35)}
+.total span{color:#f3d2bd;font-size:14px}
+.total b{font-family:var(--n);font-size:28px;color:#fff}
+.log{white-space:pre-line;color:var(--muted);font-size:13px;margin-top:6px;line-height:1.7}
 /* admin */
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:14px}
-.kpi{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:12px 14px}
-.kpi b{display:block;font-family:Manrope;font-size:28px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:14px}
+.kpi{background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));border:1px solid var(--line);border-radius:20px;padding:14px 16px}
+.kpi b{display:block;font-family:var(--n);font-size:30px;font-weight:800;line-height:1.2}
 .kpi span{color:var(--muted);font-size:14px}
-table{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;font-size:15px}
-th,td{padding:10px;border-bottom:1px solid var(--line);text-align:start}
-th{color:var(--muted);font-weight:600}
-td.r{text-align:end;font-family:Manrope}
-.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#fff;color:#111;border-radius:12px;padding:10px 16px;font-weight:700;z-index:30;max-width:92vw}
+.kpi.hot{background:linear-gradient(135deg,var(--orange2),var(--orange));border:0}.kpi.hot span{color:#ffe3d0}
+.bar{height:6px;border-radius:9px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:6px}.bar i{display:block;height:100%;background:var(--green);border-radius:9px}
+.agents{display:grid;gap:10px}
+.agent{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:18px;padding:12px 14px}
+.agent .stats{display:flex;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:13px}
+.agent .stats b{color:var(--text);font-family:var(--n)}
+.user{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#fff;color:#111;border-radius:14px;padding:12px 18px;font-weight:700;z-index:30;max-width:92vw;box-shadow:0 12px 40px rgba(0,0,0,.5)}
 .toast.bad{background:var(--red);color:#fff}
 .spin{width:22px;height:22px;border:3px solid rgba(255,255,255,.25);border-top-color:#fff;border-radius:50%;animation:s .8s linear infinite}
 @keyframes s{to{transform:rotate(360deg)}}
@@ -96,11 +131,30 @@ td.r{text-align:end;font-family:Manrope}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></symbol>
+  <symbol id="i-wa" viewBox="0 0 24 24"><path d="M3 21l1.6-4.6A8.5 8.5 0 1 1 8 19.6z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1.2-1.4-1.9-1-1 .9a4 4 0 0 1-2.3-2.3l.9-1-1-1.9z"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.6-6.4L21 8"/><path d="M21 3v5h-5"/></symbol>
+  <symbol id="i-out" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></symbol>
+  <symbol id="i-miss" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9"/><path d="M16 2l6 6M22 2l-6 6"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16 9.8"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 24 24"><path d="M1 4h14v12H1zM15 8h4l4 4v4h-8"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></symbol>
+  <symbol id="i-ban" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></symbol>
+  <symbol id="i-note" viewBox="0 0 24 24"><path d="M4 4h16v12l-4 4H4z"/><path d="M8 9h8M8 13h5"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
+  <symbol id="i-party" viewBox="0 0 24 24"><path d="M5 19l4-12 8 8z"/><path d="M14 4l1 2M19 9l2 1M17 3l-1 3M21 6l-3 1"/></symbol>
+</svg>
 
 <section class="login" id="loginView">
   <form id="loginForm" novalidate>
     <img src="../img/logo-wide.webp" alt="DIR POS">
     <h1>تأكيد الطلبيات</h1>
+    <p>ادخل بالاسم والـ PIN تاعك</p>
     <label for="lu">الاسم</label>
     <input id="lu" autocomplete="username" required>
     <label for="lp">الـ PIN</label>
@@ -114,15 +168,15 @@ td.r{text-align:end;font-family:Manrope}
   <header>
     <div class="top">
       <img src="../img/logo-wide.webp" alt="DIR POS">
-      <div class="me"><div id="meName"></div><div id="sync" class="num" style="font-size:12px"></div></div>
-      <button class="btn icon" id="refresh" title="تحديث" aria-label="تحديث">⟳</button>
-      <button class="btn icon" id="logout" title="خروج" aria-label="خروج">⎋</button>
+      <div class="me"><b id="meName"></b><span id="sync" class="num"></span></div>
+      <button class="btn icon" id="refresh" title="تحديث" aria-label="تحديث"><svg class="i"><use href="#i-refresh"/></svg></button>
+      <button class="btn icon" id="logout" title="خروج" aria-label="خروج"><svg class="i"><use href="#i-out"/></svg></button>
     </div>
     <nav class="tabs" id="tabs"></nav>
   </header>
   <main>
     <div id="listView">
-      <input class="search" id="q" type="search" placeholder="بحث بالاسم ولا الرقم">
+      <div class="searchw"><svg class="i"><use href="#i-search"/></svg><input id="q" type="search" placeholder="بحث بالاسم ولا الرقم"></div>
       <div class="list" id="list"></div>
     </div>
     <div id="adminView" class="hide"></div>
@@ -163,6 +217,11 @@ const day = s => { const d = new Date(s); return isNaN(d) ? '' : d.toLocaleDateS
 const whenDue = l => l.callback || l.due || l.at;
 const isOpen = l => ['جديد','ما ردّش','عاود عيطلو','مهتم'].includes(l.status);
 const isDue = l => isOpen(l) && new Date(whenDue(l)) <= new Date();
+const SC = {'جديد':'var(--blue)','ما ردّش':'var(--yellow)','عاود عيطلو':'var(--violet)','مهتم':'var(--orange2)','مؤكد':'var(--green)','مبعوث':'var(--green)','ملغي':'var(--red)'};
+const AC = s => s === 'مواد غذائية' ? '#e8590c' : s === 'محل ملابس' ? '#7c5cff' : s === 'محل جملة' ? '#2f7de1' : '#5b544d';
+const ini = n => (String(n || '؟').trim()[0] || '؟');
+const ic = (n, cls) => `<svg class="i ${cls||''}"><use href="#i-${n}"/></svg>`;
+const chip = s => `<span class="chip st" style="--c:${SC[s]||'var(--muted)'}">${esc(s)}</span>`;
 const intl = p => '213' + String(p).replace(/\D/g,'').replace(/^0/,'');
 
 /* ---------- login ---------- */
@@ -201,7 +260,7 @@ function inTab(l) {
   return l.status === tab;
 }
 function render() {
-  const tabs = me.role === 'admin' ? TABS.concat([{k:'admin', t:'📊 الإحصائيات'}]) : TABS;
+  const tabs = me.role === 'admin' ? TABS.concat([{k:'admin', t:'الإحصائيات'}]) : TABS;
   $('tabs').innerHTML = tabs.map(x => {
     const n = x.k === 'admin' ? '' : `<b>${leads.filter(l => (x.k==='due'?isDue(l):x.k==='all'?true:l.status===x.k)).length}</b>`;
     return `<button class="tab${tab===x.k?' on':''}" data-k="${x.k}">${x.t}${n}</button>`;
@@ -214,17 +273,25 @@ function render() {
     .sort((a, b) => new Date(whenDue(a)) - new Date(whenDue(b)));
   $('list').innerHTML = rows.length ? rows.map(l => {
     const late = isDue(l) && (Date.now() - new Date(whenDue(l))) > 864e5;
-    return `<button class="card" data-id="${esc(l.id)}">
-      <span class="n">${esc(l.name || 'بلا اسم')}</span>
-      <span class="chip st-${esc(l.status.replace(/ /g,'-'))}">${esc(l.status)}</span>
-      <span class="s"><span class="num">${esc(l.phone)}</span> · ${esc(l.shop || '—')}${l.agent?' · '+esc(l.agent):''}</span>
-      <span class="s ${late?'late':''}">${l.tracking ? esc(l.shipStatus||'') : (isOpen(l) ? '📞 '+esc(fmtD(whenDue(l))) : '')}${l.attempts?' · '+l.attempts+'×':''}</span>
-    </button>`;
-  }).join('') : `<div class="empty">${tab==='due'?'ما كان حتى زبون لازم تعيطلو دروك 👌':'والو هنا.'}</div>`;
+    const sub = l.tracking ? ic('truck') + ' ' + esc(l.shipStatus || '') : (isOpen(l) ? ic('clock') + ' <span class="num">' + esc(fmtD(whenDue(l))) + '</span>' : '');
+    return `<div class="card" role="button" tabindex="0" data-id="${esc(l.id)}" style="--c:${SC[l.status]||'var(--muted)'}">
+      <div class="av" style="--c:${AC(l.shop)}">${esc(ini(l.name))}</div>
+      <div class="who">
+        <div class="n">${esc(l.name || 'بلا اسم')}</div>
+        <div class="s">${chip(l.status)}<span>${esc(l.shop || '—')}</span>${l.attempts?'<span class="num">'+l.attempts+'×</span>':''}${l.agent && me.role==='admin'?'<span>· '+esc(l.agent)+'</span>':''}</div>
+        <div class="s ${late?'late':''}" style="margin-top:4px">${sub}</div>
+      </div>
+      <div class="quick">
+        <a class="qb call" href="tel:${esc(l.phone)}" aria-label="اتصل">${ic('phone')}</a>
+        <a class="qb wa" href="https://wa.me/${intl(l.phone)}?text=${encodeURIComponent(WA_TEXT(l.name))}" target="_blank" rel="noopener" aria-label="واتساب">${ic('wa')}</a>
+      </div>
+    </div>`;
+  }).join('') : `<div class="empty">${ic(tab==='due'?'party':'search')}<div>${tab==='due'?'ما كان حتى زبون لازم تعيطلو دروك 👌':'والو هنا.'}</div></div>`;
 }
 $('tabs').addEventListener('click', e => { const b = e.target.closest('.tab'); if (b) { tab = b.dataset.k; render(); } });
 $('q').addEventListener('input', render);
-$('list').addEventListener('click', e => { const c = e.target.closest('.card'); if (c) openLead(c.dataset.id); });
+$('list').addEventListener('click', e => { if (e.target.closest('a')) return; const c = e.target.closest('.card'); if (c) openLead(c.dataset.id); });
+$('list').addEventListener('keydown', e => { const c = e.target.closest('.card'); if (c && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openLead(c.dataset.id); } });
 
 /* ---------- one customer ---------- */
 function feeOf(w, home) { const f = fees[w]; return f ? f[home ? 1 : 0] : null; }
@@ -235,41 +302,42 @@ function openLead(id) {
   const home = l.delivery === 'المنزل';
   const locked = ['مؤكد','مبعوث'].includes(l.status);
   $('sheetBody').innerHTML = `
-    <div style="display:flex;justify-content:space-between;gap:10px;align-items:start">
-      <div><h2>${esc(l.name || 'بلا اسم')}</h2><span class="chip st-${esc(l.status.replace(/ /g,'-'))}">${esc(l.status)}</span></div>
-      <button class="btn icon" data-act="close" aria-label="سكّر">✕</button>
+    <div class="hd">
+      <div class="av" style="--c:${AC(l.shop)}">${esc(ini(l.name))}</div>
+      <div><h2>${esc(l.name || 'بلا اسم')}</h2><div style="margin-top:4px">${chip(l.status)}</div></div>
+      <button class="btn icon x" data-act="close" aria-label="سكّر">${ic('x')}</button>
     </div>
-    <dl class="facts">
-      <dt>الهاتف</dt><dd class="num" style="text-align:end">${esc(l.phone)}</dd>
-      <dt>النشاط</dt><dd>${esc(l.shop || '—')}</dd>
-      <dt>حمّل</dt><dd>${esc(fmtD(l.at))}</dd>
-      <dt>المحاولات</dt><dd>${l.attempts}${l.lastCall?' · آخر وحدة '+esc(fmtD(l.lastCall)):''}</dd>
-      ${l.agent?`<dt>العامل</dt><dd>${esc(l.agent)}</dd>`:''}
-      ${l.tracking?`<dt>التتبع</dt><dd class="num" style="text-align:end">${esc(l.tracking)}</dd><dt>التوصيل</dt><dd>${esc(l.shipStatus)}</dd>`:''}
-    </dl>
+    <div class="facts">
+      <div class="fact"><span>الهاتف</span><b class="num">${esc(l.phone)}</b></div>
+      <div class="fact"><span>النشاط</span><b>${esc(l.shop || '—')}</b></div>
+      <div class="fact"><span>حمّل التطبيق</span><b class="num">${esc(fmtD(l.at))}</b></div>
+      <div class="fact"><span>المحاولات</span><b><span class="num">${l.attempts}</span>${l.agent?' · '+esc(l.agent):''}</b></div>
+      ${l.tracking?`<div class="fact"><span>التتبع</span><b class="num">${esc(l.tracking)}</b></div><div class="fact"><span>التوصيل</span><b>${esc(l.shipStatus)}</b></div>`:''}
+    </div>
     <div class="row">
-      <a class="btn main" href="tel:${esc(l.phone)}" data-act="dial">📞 اتصل</a>
-      <a class="btn wa" href="https://wa.me/${intl(l.phone)}?text=${encodeURIComponent(WA_TEXT(l.name))}" target="_blank" rel="noopener">واتساب</a>
+      <a class="btn main big" href="tel:${esc(l.phone)}" data-act="dial">${ic('phone')} اتصل</a>
+      <a class="btn wa big" href="https://wa.me/${intl(l.phone)}?text=${encodeURIComponent(WA_TEXT(l.name))}" target="_blank" rel="noopener">${ic('wa')} واتساب</a>
     </div>
     ${locked ? '' : `
-    <div class="box"><h3>النتيجة تاع الاتصال</h3>
-      <div class="row" style="margin-top:4px">
-        <button class="btn" data-act="noanswer">ما ردّش</button>
-        <button class="btn" data-act="interested">مهتم</button>
+    <div class="box"><h3>${ic('phone')} النتيجة تاع الاتصال</h3>
+      <div class="acts">
+        <button class="act" data-act="noanswer" style="--c:var(--yellow)">${ic('miss')}ما ردّش</button>
+        <button class="act" data-act="showcb" style="--c:var(--violet)">${ic('clock')}عاود عيطلو</button>
+        <button class="act" data-act="interested" style="--c:var(--orange2)">${ic('star')}مهتم</button>
       </div>
-      <label for="cb">عاود عيطلو نهار</label>
-      <div class="row" style="margin-top:0"><input id="cb" type="datetime-local" style="flex:2 1 180px"><button class="btn" data-act="callback" style="flex:1 1 100px">سجّل</button></div>
-      <label>ملغي، علاش؟</label>
-      <div class="reasons">${REASONS.map(r => `<button class="btn red" data-act="cancel" data-r="${r}" style="min-height:40px">${r}</button>`).join('')}</div>
+      <div class="cbw hide" id="cbw"><label for="cb">النهار والساعة</label>
+        <div class="row" style="margin-top:0"><input id="cb" type="datetime-local" style="flex:2 1 180px"><button class="btn" data-act="callback" style="flex:1 1 100px">سجّل</button></div></div>
+      <label>${ic('ban')} ملغي، علاش؟</label>
+      <div class="reasons">${REASONS.map(r => `<button class="reason" data-act="cancel" data-r="${r}">${r}</button>`).join('')}</div>
     </div>`}
-    <div class="box"><h3>${locked ? 'الطلبية' : 'أكّد الطلبية'}</h3>
+    <div class="box"><h3>${ic('check')} ${locked ? 'الطلبية' : 'أكّد الطلبية'}</h3>
       <label for="fn">الاسم الكامل</label><input id="fn" value="${esc(l.name)}" ${locked?'disabled':''}>
       <label for="fw">الولاية</label>
       <select id="fw" ${locked?'disabled':''}><option value="">اختار الولاية</option>${WILAYAS.map((n,i)=>{const k=i+1,f=fees[k];return `<option value="${k}" ${f?'':'disabled'} ${w===k?'selected':''}>${String(k).padStart(2,'0')} - ${n}${f?'':' (غير متوفر)'}</option>`}).join('')}</select>
       <label>التوصيل</label>
       <div class="seg">
-        <label><input type="radio" name="dl" value="المكتب" ${!home?'checked':''} ${locked?'disabled':''}><span>المكتب <b class="num" id="pd"></b></span></label>
-        <label><input type="radio" name="dl" value="المنزل" ${home?'checked':''} ${locked?'disabled':''}><span>المنزل <b class="num" id="ph"></b></span></label>
+        <label><input type="radio" name="dl" value="المكتب" ${!home?'checked':''} ${locked?'disabled':''}><span>Stop desk · المكتب<b class="num" id="pd"></b></span></label>
+        <label><input type="radio" name="dl" value="المنزل" ${home?'checked':''} ${locked?'disabled':''}><span>باب المنزل<b class="num" id="ph"></b></span></label>
       </div>
       <label for="fc">البلدية</label>
       <select id="fc" ${locked?'disabled':''}><option value="">${l.commune?esc(l.commune):'اختار الولاية قبل'}</option></select>
@@ -278,12 +346,12 @@ function openLead(id) {
       <label for="fnote">ملاحظة</label><textarea id="fnote">${esc(l.note)}</textarea>
       <div class="total"><span>المجموع (7900 + التوصيل)</span><b id="tot">—</b></div>
       <div class="row">
-        ${locked ? '' : '<button class="btn green" data-act="confirm">✅ أكّد الطلبية</button>'}
-        <button class="btn" data-act="note">سجّل الملاحظة</button>
-        ${l.status==='مؤكد' ? '<button class="btn main" data-act="ship">🚚 ابعث لـ 48hr</button>' : ''}
+        ${locked ? '' : `<button class="btn green big" data-act="confirm">${ic('check')} أكّد الطلبية</button>`}
+        <button class="btn" data-act="note">${ic('note')} سجّل الملاحظة</button>
+        ${l.status==='مؤكد' ? `<button class="btn main big" data-act="ship">${ic('truck')} ابعث لـ 48hr</button>` : ''}
       </div>
     </div>
-    ${l.log?`<div class="box"><h3>السجل</h3><div class="log">${esc(l.log)}</div></div>`:''}`;
+    ${l.log?`<div class="box"><h3>${ic('note')} السجل</h3><div class="log">${esc(l.log)}</div></div>`:''}`;
   $('sheet').classList.remove('hide');
   const fw = $('fw');
   const upd = () => {
@@ -320,6 +388,7 @@ $('sheet').addEventListener('click', async e => {
   const act = b.dataset.act, l = open;
   if (act === 'close') return closeSheet();
   if (act === 'dial') return;
+  if (act === 'showcb') { $('cbw').classList.toggle('hide'); return; }
   let data;
   const note = $('fnote').value.trim();
   if (act === 'noanswer') data = {status:'ما ردّش', call:true, callback: new Date(Date.now()+3*36e5).toISOString()};
@@ -353,36 +422,39 @@ async function renderAdmin() {
   const total = leads.length, conf = leads.filter(l => ['مؤكد','مبعوث'].includes(l.status)).length;
   const reached = leads.filter(l => l.attempts > 0).length;
   const today = new Date().toDateString(), dl = leads.filter(l => new Date(l.at).toDateString() === today).length;
+  const rate = reached ? Math.round(conf*100/reached) : 0;
   $('adminView').innerHTML = `
     <div class="kpis">
-      <div class="kpi"><b>${total}</b><span>حمّلو التطبيق</span></div>
-      <div class="kpi"><b>${dl}</b><span>اليوم</span></div>
-      <div class="kpi"><b>${reached}</b><span>تعيطلهم</span></div>
-      <div class="kpi"><b>${conf}</b><span>أكّدو</span></div>
-      <div class="kpi"><b>${reached ? Math.round(conf*100/reached) : 0}%</b><span>نسبة التأكيد</span></div>
-      <div class="kpi"><b>${(conf*price).toLocaleString('fr-DZ')}</b><span>دج (بلا التوصيل)</span></div>
+      <div class="kpi hot"><b class="num">${total}</b><span>حمّلو التطبيق</span></div>
+      <div class="kpi"><b class="num">${dl}</b><span>حمّلو اليوم</span></div>
+      <div class="kpi"><b class="num">${reached}</b><span>تعيطلهم</span></div>
+      <div class="kpi"><b class="num">${conf}</b><span>أكّدو</span></div>
+      <div class="kpi"><b class="num">${rate}%</b><span>نسبة التأكيد</span><div class="bar"><i style="width:${rate}%"></i></div></div>
+      <div class="kpi"><b class="num">${(conf*price).toLocaleString('fr-DZ')}</b><span>دج (بلا التوصيل)</span></div>
     </div>
-    <div class="row" style="margin:0 0 12px"><button class="btn" id="trackAll">🚚 حدّث حالة التوصيل من 48hr</button></div>
-    <div style="overflow-x:auto"><table>
-      <thead><tr><th>العامل</th><th>زبائن</th><th>اتصالات</th><th>أكّدو</th><th>بعثو</th><th>ملغي</th><th>النسبة</th></tr></thead>
-      <tbody>${Object.entries(by).map(([a,s]) => `<tr><td>${esc(a)}</td><td class="r">${s.n}</td><td class="r">${s.calls}</td><td class="r">${s.conf}</td><td class="r">${s.ship}</td><td class="r">${s.cancel}</td><td class="r">${s.n?Math.round(s.conf*100/s.n):0}%</td></tr>`).join('')}</tbody>
-    </table></div>
-    <div class="box"><h3>العمال</h3><div id="users">...</div>
-      <div class="grid2" style="margin-top:10px">
+    <div class="row" style="margin:0 0 14px"><button class="btn" id="trackAll">${ic('truck')} حدّث حالة التوصيل من 48hr</button></div>
+    <div class="box" style="margin-top:0"><h3>${ic('chart')} العمال والنتائج</h3>
+      <div class="agents" style="margin-top:10px">${Object.entries(by).map(([a,s]) => { const r = s.n ? Math.round(s.conf*100/s.n) : 0; return `
+        <div class="agent"><div class="av" style="--c:#3a332d">${esc(ini(a))}</div>
+          <div><div style="display:flex;justify-content:space-between"><b>${esc(a)}</b><b class="num">${r}%</b></div>
+            <div class="stats"><span>زبائن <b>${s.n}</b></span><span>اتصالات <b>${s.calls}</b></span><span>أكّدو <b>${s.conf}</b></span><span>بعثو <b>${s.ship}</b></span><span>ملغي <b>${s.cancel}</b></span></div>
+            <div class="bar"><i style="width:${r}%"></i></div></div></div>`; }).join('')}</div>
+    </div>
+    <div class="box"><h3>${ic('user')} الحسابات</h3><div id="users">...</div>
+      <div class="grid2" style="margin-top:6px">
         <div><label for="un">الاسم</label><input id="un"></div>
         <div><label for="up">PIN جديد</label><input id="up" inputmode="numeric"></div>
       </div>
       <div class="row"><select id="ur" style="flex:1 1 120px"><option value="agent">عامل</option><option value="admin">مدير</option></select>
       <button class="btn main" id="uadd" style="flex:1 1 120px">زيد / بدّل</button></div>
-      <p class="s" style="color:var(--muted);font-size:13px">باش توقف عامل، اكتب اسمو واضغط على "وقّف" في القائمة.</p>
     </div>`;
   $('trackAll').onclick = async e => { e.target.disabled = true; try { leads = (await api('track')).leads; toast('تحدّثت ✅'); renderAdmin(); } catch (err) { toast(err.message, true); e.target.disabled = false; } };
   $('uadd').onclick = async () => { try { showUsers((await api('users', {data:{name:$('un').value, pin:$('up').value, role:$('ur').value}})).users); $('un').value=$('up').value=''; toast('تسجّل ✅'); } catch (err) { toast(err.message, true); } };
   try { showUsers((await api('users')).users); } catch (err) { $('users').textContent = err.message; }
 }
 function showUsers(us) {
-  $('users').innerHTML = us.map(u => `<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--line)">
-    <span>${esc(u.name)} <span class="chip">${u.role==='admin'?'مدير':'عامل'}</span> ${u.active?'':'<span class="chip st-ملغي">موقّف</span>'}</span>
+  $('users').innerHTML = us.map(u => `<div class="user">
+    <span>${esc(u.name)} <span class="chip">${u.role==='admin'?'مدير':'عامل'}</span> ${u.active?'':chip('موقّف').replace('var(--muted)','var(--red)')}</span>
     ${u.name===me.name?'':`<button class="btn" style="min-height:36px" data-u="${esc(u.name)}" data-r="${u.role}" data-a="${u.active?0:1}">${u.active?'وقّف':'رجّع'}</button>`}</div>`).join('');
   $('users').querySelectorAll('[data-u]').forEach(b => b.onclick = async () => {
     try { showUsers((await api('users', {data:{name:b.dataset.u, role:b.dataset.r, active:b.dataset.a==='1'}})).users); } catch (err) { toast(err.message, true); } });
